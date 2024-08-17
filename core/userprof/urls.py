@@ -7,5 +7,6 @@ urlpatterns = [
 
 
 #path('',TemplateView.as_view(template_name = "userprof.html")),
-path('userp/',userprofo) 
+path('userp/',userprofo) ,
+path('userregis/',registrationuser) 
   ]

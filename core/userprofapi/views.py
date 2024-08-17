@@ -30,7 +30,8 @@ def userprofotest(request):
 @api_view(['GET','POST','DELETE','PUT','PATCH','DELETE'])
 def userprofo(request):
        if request.method == 'GET':
-            data = testomodel.objects.all()
+            #data = testomodel.objects.all()
+            data = testomodel.objects.filter(color__isnull=False)
             #data1=deletebutton.objects.all()
             serilizers=testomodelserial(data,many=True)
             return Response(serilizers.data)
@@ -62,4 +63,17 @@ def userprofo(request):
             obj=testomodel.objects.get(id=data['id'])
             obj.delete()
             return Response({'message':'deleteddd'})  
-            
+       
+
+@api_view(['POST'])            
+def registrationuser(request):
+     if request.method=='POST':
+          data = request.data
+       
+          serilizers=PostaddressSerializer(data=data)
+          if serilizers.is_valid() :
+                 serilizers.save()
+                 return Response(serilizers.data)
+          
+          return Response(serilizers.errors)
+          

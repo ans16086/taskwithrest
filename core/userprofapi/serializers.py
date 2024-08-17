@@ -2,9 +2,24 @@ from rest_framework import serializers
 from userprof.models import *
 
 
-class PostaddressSerializer(serializers.ModelSerializer):
+
+class colorSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('user', 'addressUser')
+        fields = ('color_name','id')
+        model = colour
+
+
+class userserializers(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = User
+
+        
+
+class PostaddressSerializer(serializers.ModelSerializer):
+    users=userserializers()
+    class Meta:
+        fields = '__all__'
         model = userprofilee
 
 
@@ -24,7 +39,16 @@ class testmodelserial(serializers.ModelSerializer):
         model = testmodel
 '''       
 class testomodelserial(serializers.ModelSerializer):
-    class Meta:
+   
+   
+   #country = serializers.SerializerMethodField()
+   color= colorSerializer()
+   class Meta:
         fields = '__all__'
         model = testomodel
+   
+   def get_country(self,obj):
+        new_color=colour.objects.get(id=obj.color.id)  
+        return {'color':new_color.color_name,'hex':'001'} 
+    
        
