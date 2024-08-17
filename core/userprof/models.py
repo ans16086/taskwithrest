@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 
 class testmodel(models.Model):
     username=models.CharField(max_length=100)
-    age = models.IntegerField
+    age = models.IntegerField(default=0)
 
 
 class userprofilee(models.Model):
@@ -26,3 +26,8 @@ class userprofilee(models.Model):
 class deletebutton(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     deleteq=models.BooleanField(default=False)
+
+
+class testomodel(models.Model):
+    username=models.CharField(max_length=100)
+    age = models.IntegerField(default=0)
