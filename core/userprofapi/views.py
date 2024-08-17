@@ -1,5 +1,6 @@
 
 #from rest_framework import generics
+from rest_framework.views import APIView
 from userprof.models import *
 from .serializers import *
 #from rest_framework.views import APIView
@@ -76,4 +77,10 @@ def registrationuser(request):
                  return Response(serilizers.data)
           
           return Response(serilizers.errors)
-          
+
+
+class person(APIView):
+     def get(self,request):
+          return Response({'message':'get view'})
+     def post(self,request):
+          return Response({'message':'post view'})
