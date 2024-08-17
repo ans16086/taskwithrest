@@ -13,5 +13,12 @@ class PostaddressSerializer(serializers.ModelSerializer):
 
 class PostdeleteSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'deleteq',)
+        fields = ('user', 'deleteq',)
         model = deletebutton
+
+'''
+class testmodelserial(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = testmodel
+'''        
