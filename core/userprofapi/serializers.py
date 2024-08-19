@@ -5,7 +5,7 @@ from userprof.models import *
 
 class colorSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('color_name','id')
+        fields = ['color_name']
         model = colour
 
 
@@ -42,9 +42,9 @@ class testomodelserial(serializers.ModelSerializer):
    
    
    #country = serializers.SerializerMethodField()
-   color= colorSerializer()
+   #color= colorSerializer()
    class Meta:
-        fields = '__all__'
+        fields = ['color','username']
         model = testomodel
    
    def get_country(self,obj):

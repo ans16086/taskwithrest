@@ -81,6 +81,16 @@ def registrationuser(request):
 
 class person(APIView):
      def get(self,request):
-          return Response({'message':'get view'})
+         if request.method == 'GET':
+            data = testomodel.objects.all()
+            #data = testomodel.objects.filter(color__isnull=False)
+            #data1=deletebutton.objects.all()
+            serilizers=testomodelserial(data,many=True)
+            return Response(serilizers.data)
      def post(self,request):
-          return Response({'message':'post view'})
+            data = request.data
+            serilizers=testomodelserial(data=data)
+            if serilizers.is_valid():
+                 serilizers.save()
+                 return Response(serilizers.data) 
+            return Response(serilizers.errors) 
