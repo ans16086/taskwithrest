@@ -6,20 +6,24 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-'''
+
 class testmodel(models.Model):
     username=models.CharField(max_length=100)
     age = models.IntegerField(default=0)
-'''
+
 
 class userprofilee(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name='user')
     
    
-    addressUser =models.TextField(verbose_name=_("Address"))
+    addressUser =models.CharField(verbose_name=_("Address"),max_length=100)
     def __str__(self) -> str:
          return f"{self.user.username}: {self.addressUser}"
-                                            
+  
+
+
+
+
 
 
 

@@ -64,7 +64,6 @@ def userprofo(request):
             obj=testomodel.objects.get(id=data['id'])
             obj.delete()
             return Response({'message':'deleteddd'})  
-       
 
 @api_view(['POST'])            
 def registrationuser(request):
@@ -72,18 +71,40 @@ def registrationuser(request):
           data = request.data
        
           serilizers=PostaddressSerializer(data=data)
-          if serilizers.is_valid() :
+          
+          if serilizers.is_valid():
                  serilizers.save()
-                 return Response(serilizers.data)
+                 
+                 return Response({'serial1':serilizers.data})
           
           return Response(serilizers.errors)
 
 
+
+'''
+@api_view(['POST'])
+def registrationuser(request):
+    if request.method == 'POST':
+        data = request.data
+        serializer = PostaddressSerializer(data=data)
+
+        if serializer.is_valid():
+            user_profiles = serializer.save()
+
+            # Serialize the list of created profiles to return as a response
+            response_data = PostaddressSerializer(user_profiles, many=True).data
+
+            return Response({'user_profiles': response_data})
+
+        return Response(serializer.errors)
+'''
+
+
 class person(APIView):
      def get(self,request):
-         if request.method == 'GET':
-            data = testomodel.objects.all()
-            #data = testomodel.objects.filter(color__isnull=False)
+         
+            #data = testomodel.objects.all()
+            data = testomodel.objects.filter(color__isnull=False)
             #data1=deletebutton.objects.all()
             serilizers=testomodelserial(data,many=True)
             return Response(serilizers.data)
