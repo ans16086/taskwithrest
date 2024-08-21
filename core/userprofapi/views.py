@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 
 '''''
 class PostList(generics.ListCreateAPIView):
@@ -71,6 +71,7 @@ def userprofo(request):
             obj.delete()
             return Response({'message':'deleteddd'})  
 
+@permission_classes([AllowAny]) 
 @api_view(['POST'])            
 def registrationuser(request):
      if request.method=='POST':
@@ -85,8 +86,7 @@ def registrationuser(request):
           
           return Response(serilizers.errors)
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])     
+     
 @api_view(['POST'])            
 def login(request):
      if request.method=='POST':
@@ -98,20 +98,39 @@ def login(request):
            print(serializerss.data)
            print(serializerss.validated_data)
           # user = authenticate(username=User.objects.filter(serializerss.data['username']),password=User.objects.filter(serializerss.data['password']))
-           validated_data = serializerss.data
+           validated_data = serializerss.validated_data
            username = validated_data.get('username')
            password = validated_data.get('password')
+           print(username)
+           print(password)
 
            user = authenticate(username=username, password=password)
+           print(user)
            token, _ = Token.objects.get_or_create(user=user)
            if not user :
                 return Response({'status':'user not found'}) 
            return Response({'status':serializerss.data,'token':str(token)})
                 
            
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])     
+@api_view(['GET'])            
+def show_data(request):
+     #data = userprofilee.objects.filter(user=request.user)
+     #print(data)
+   #  serializers= PostaddressSerializer(data)
+     return Response({'status':'you are in','data':"data"})
 
 
-
+class person_data(APIView):
+     permission_classes=[IsAuthenticated]
+     authentication_classes=[TokenAuthentication]
+     def get(self,request):
+          data = userprofilee.objects.filter(user=request.user)
+          print(data)
+          serializers= showserializers(data,many=True)
+          print(serializers.data)
+          return Response({'status':'you are in','data':serializers.data})
 
 '''
 @api_view(['POST'])

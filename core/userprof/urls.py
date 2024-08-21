@@ -10,5 +10,8 @@ urlpatterns = [
 path('userp/',userprofo) ,
 path('userregis/',registrationuser) ,
 path('login/',login),
+path('data/',show_data),
+path('data_p/',person_data.as_view()),
 path('person/',person.as_view())
+
   ]

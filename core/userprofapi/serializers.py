@@ -16,11 +16,19 @@ class userserializers(serializers.ModelSerializer):
     class Meta:
         fields = ['username','email','password']
         model = User
-  
+class userserializersss(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']  # Password should not be included for security reasons
 
-class loginserializers(serializers.Serializer):
-    username=serializers.CharField()
-    password=  serializers.CharField() 
+# Serializer for the userprofilee model
+class showserializers(serializers.ModelSerializer):
+    user = userserializersss()  # Use the user serializer
+    addressUser = serializers.CharField()  # Assuming addressUser is a list
+
+    class Meta:
+        model = userprofilee
+        fields = ['user', 'addressUser']  # Define the fields to be serialized
 
 
 '''
