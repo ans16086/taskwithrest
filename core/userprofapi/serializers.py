@@ -18,7 +18,9 @@ class userserializers(serializers.ModelSerializer):
         model = User
   
 
-        
+class loginserializers(serializers.Serializer):
+    username=serializers.CharField()
+    password=  serializers.CharField() 
 
 
 '''
@@ -131,13 +133,13 @@ class PostdeleteSerializer(serializers.ModelSerializer):
         fields = ('user', 'deleteq')
         model = deletebutton
 
-'''
-ALLAH wasta da ware ha mara naal anu
+
+#ALLAH wasta da ware ha mara naal anu
 class testmodelserial(serializers.ModelSerializer):
     class Meta:
         fields = ('username', 'age')
         model = testmodel
-'''       
+   
 
 
 

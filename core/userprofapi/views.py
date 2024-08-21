@@ -5,7 +5,13 @@ from userprof.models import *
 from .serializers import *
 #from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication 
+from rest_framework.permissions import IsAuthenticated
+
 '''''
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
@@ -78,6 +84,32 @@ def registrationuser(request):
                  return Response({'serial1':serilizers.data})
           
           return Response(serilizers.errors)
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])     
+@api_view(['POST'])            
+def login(request):
+     if request.method=='POST':
+           data= request.data
+           serializerss = loginserializers(data=data)
+           if not serializerss.is_valid():
+                 
+                 return Response({'status':serializerss.errors,'status2':'error in searializer'}) 
+           print(serializerss.data)
+           print(serializerss.validated_data)
+          # user = authenticate(username=User.objects.filter(serializerss.data['username']),password=User.objects.filter(serializerss.data['password']))
+           validated_data = serializerss.data
+           username = validated_data.get('username')
+           password = validated_data.get('password')
+
+           user = authenticate(username=username, password=password)
+           token, _ = Token.objects.get_or_create(user=user)
+           if not user :
+                return Response({'status':'user not found'}) 
+           return Response({'status':serializerss.data,'token':str(token)})
+                
+           
+
 
 
 
